@@ -1,0 +1,161 @@
+/* Inicio: Estilos das datas*/
+
+.finalDeSemana {
+    color: red;
+    border: 1px black;
+    background-color: azure;
+    font-size: 12px;
+}
+
+.finalDeSemana:hover {
+    color: darkgrey;
+}
+
+.dia_agendamento {
+    color: black;
+    font-size: 15px;
+    background-color: rgb(57, 220, 37);
+    text-align: center;
+}
+
+.dia_agendamento:hover {
+    color: aliceblue;
+}
+
+/* Fim: Estilos das datas*/
+/* Inicio: */
+.id_mon, .compareceu {
+	width: 60px;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+/*Fim: */
+
+/* Inicio:  Style TDs ----------*/
+
+.hora {
+	size: 20px;
+}
+
+.nome_mon {
+	width: 500px;
+}
+
+.materiais {
+  width: 30px;
+}
+
+.nome_input{
+	width: 100%;
+}
+
+.horario_td{
+	width: 50px;
+}
+
+.id_td{
+	width: 10px;
+}
+
+.motivo_td{
+	width: 200px;
+}
+
+.compareceu_td{
+	width: 106px;
+	vertical-align: top !important;
+}
+
+.materiais_td{
+    width: 30px;
+}
+
+.th-menu p {
+    padding: 0px;
+}
+#hora {
+    width: 52px;
+}
+
+#id {
+    width: 76px;
+}
+
+#monitorado {
+    width: 448px;
+}
+
+#motivo {
+    width: 200px;
+}
+
+#compareceu {
+    width: 106px;
+}
+
+#ct {
+    width: 46px;
+}
+
+#c {
+    width: 46px;
+}
+
+#t {
+    width: 46px;
+}
+
+#acao {
+    width: 120px;
+}
+
+.campo_hora, .posicao{
+    visibility: hidden;
+    display: none;
+    z-index: -1;
+}
+
+/* Fim:  Style TDs ----------*/
+
+
+/* Inicio: Botoes de ADD, EDIT e DELET*/
+
+.acao_agend {
+	width: 120px;
+}
+
+.add {
+    background: #137e19;
+}
+
+.edit {
+    background: gray;
+}
+
+.delete {
+    background: #ea2626;
+}
+
+.action {
+	padding: 6px;
+	color: #fff;
+	text-decoration: none;
+	font-size: 1em;
+	margin: 0px 2px;
+}
+
+.action:hover {
+	text-decoration: none;
+	color: #fff;
+}
+
+.position {
+	display: inline;
+	float: left;
+}
+
+button.position{
+    border: 0px;
+}
+/*Fim: Botoes de ADD, EDIT e DELET */
