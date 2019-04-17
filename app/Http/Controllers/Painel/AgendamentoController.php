@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Painel\Agendamento;
 use App\Models\Painel\Monitorado;
+use App\Models\Painel\Manutencao;
 use App\Models\Painel\AgendamentoMonitorado;
 use App\Http\Requests\AgendamentoFormRequest;
 use Illuminate\Support\Facades\DB;
@@ -15,16 +16,18 @@ class AgendamentoController extends Controller
     
     private $agendamento;
     private $monitorado;
+    private $manutencao;
 
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-	public function __construct(Agendamento $agendamento, Monitorado $monitorado)
+	public function __construct(Agendamento $agendamento, Monitorado $monitorado, Manutencao $manutencao)
 	{
         $this->agendamento = $agendamento;
         $this->monitorado = $monitorado;
+        $this->manutencao = $manutencao;
 	}
 
     /**
@@ -98,38 +101,7 @@ class AgendamentoController extends Controller
         if($request->input('t') !=  null){
             $tornozeleira = true;
         }
-
-        
-
-        /*
-        $requestIDMonitorado = $request->input('id_monitorado');
-        $monitorado = DB::table('monitorado')->where('id_monitorado', '=', $requestIDMonitorado)->get();
-        //$monitorado = $this->monitorado->where('id_monitorado', $requestIDMonitorado);
-        //dd($monitorado);
-        if($monitorado != null){
-            //Verificação da qtd de agendamentos
-            $data = $request->input('data_hora');
-            $posicao = $request->input('posicao');
-            $data_hora = date('Y/m/d H:i', strtotime($data));
-            //dd($data_hora);
-            $agendamentoDB = DB::table('agendamento')->where('data_hora', '=', $data_hora)->get();
-            //dd($agendamentoDB);
-            if(sizeOf($agendamentoDB) < 2){
-                foreach($monitorado as $temp){
-                    $motivo = $request->input('motivo');
-                    $monitorado_id = $temp->id;
-                    //dd($data_hora, $motivo, $monitorado_id);
-                    $insert = $this->agendamento->create([
-                        'data_hora'     => $data_hora,
-                        'posicao'       => $posicao,
-                        'motivo'        => $motivo,
-                        'monitorado_id' => $monitorado_id
-                    ]);
-                    if($insert)
-                        return redirect('/maio');
-                }
-            }*/
-            return "CADASTRO MANUTENCAO";
+        return "CADASTRO MANUTENCAO";
     }
     
     /**
@@ -264,6 +236,7 @@ class AgendamentoController extends Controller
                 $monitorado = $this->monitorado->find($agendamento->monitorado_id);
                 $agendamentomonitorado->monitorado = $monitorado;
                 $agendamentomonitorado->agendamento = $agendamento;
+                $agendamentomonitorado->manutencao = $this->manutencao->find($agendamento->id);
                 array_push($lista, $agendamentomonitorado);
             }
         }

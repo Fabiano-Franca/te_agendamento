@@ -9,4 +9,5 @@ class AgendamentoMonitorado extends Model
 {
     public $agendamento;
     public $monitorado;
+    public $manutencao;
 }

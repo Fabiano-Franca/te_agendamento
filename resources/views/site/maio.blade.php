@@ -65,7 +65,7 @@
                         @endforeach
                         <!-- DIAS DA SEMANA *** MANHA **** -->
                         @if($agendamento)
-                            @if(isset($itemAtual->$manutencao) <!-- AGENDAMENTO COM MANUTENCAO -->
+                            @if(isset($itemAtual->manutencao)) <!-- AGENDAMENTO COM MANUTENCAO -->
                                 {{$agendamento = false}}
                                 <form method="post" id="mail_form{{$dia}}{{$horario}}{{$qtd}}">
                                 {!! csrf_field() !!}
@@ -257,7 +257,7 @@
                         @endforeach
 
                         @if($agendamento)
-                        @if(isset($itemAtual->$manutencao) <!-- AGENDAMENTO COM MANUTENCAO -->
+                        @if(isset($itemAtual->manutencao)) <!-- AGENDAMENTO COM MANUTENCAO -->
                                 {{$agendamento = false}}
                                 <form method="post" id="mail_form{{$dia}}{{$horario}}{{$qtd}}">
                                 {!! csrf_field() !!}
