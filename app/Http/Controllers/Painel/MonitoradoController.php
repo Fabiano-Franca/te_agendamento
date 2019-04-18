@@ -35,7 +35,7 @@ class MonitoradoController extends Controller
         $insert = $this->monitorado->create($dataForm);
 
         if($insert)
-            return redirect('/lista_monitorados');
+            return redirect('/lista_monitorados')->with(['sucess' => 'Monitorado cadastrado com sucesso.']);
     }
 
     public function edit($id, Monitorado $monitorado)
@@ -53,9 +53,9 @@ class MonitoradoController extends Controller
     	$update = $monitorado_update->update($dataForm);
 
     	if($update)
-    		return redirect('/lista_monitorados');
+    		return redirect('/lista_monitorados')->with(['sucess' => 'Monitorado alterado com sucesso.']);
     	else
-    		return redirect('/lista_monitorados')->with(['errors' => 'Falha ao editar']);
+    		return redirect('/lista_monitorados')->with(['errors' => 'Falha ao editar monitorado.']);
     }
 
     public function procura_monitorado(MonitoradoFormRequest $request, $id)
@@ -75,8 +75,8 @@ class MonitoradoController extends Controller
     	$delete = $monitorado_delete->delete();
 
     	if($delete)
-    		return redirect('/lista_monitorados');
+    		return redirect('/lista_monitorados')->with(['sucess' => 'Monitorado excluído com sucesso.']);
     	else
-    		return redirect('/lista_monitorados')->with(['errors' => 'Falha ao editar']);
+    		return redirect('/lista_monitorados')->with(['errors' => 'Falha ao excluír o monitorado.']);
     }
 }

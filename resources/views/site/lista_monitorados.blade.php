@@ -10,13 +10,19 @@
 <form action="{{ url('/cadastro') }}" method="post">
 @endif
 	{!! csrf_field() !!}
-
-	@if(isset($errors) && count($errors) > 0)
-		<div class="alert alert-danger">
+	@if(isset($errors) && (count($errors) > 0))
+		<div class="alert alert-danger" role="alert">
 			@foreach( $errors->all() as $error)
 				<p>{{$error}}</p>
 			@endforeach
 		</div>
+	@endif
+    @if(isset($sucess) && (count($sucess) > 0))
+        <div class="alert alert-success" role="alert">
+            @foreach( $sucess->all() as $i)
+				<p>{{$i}}</p>
+			@endforeach
+        </div>
 	@endif
 
 	<!-- DADOS PESSOAIS-->
