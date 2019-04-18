@@ -3,15 +3,22 @@
 @section('content')
 <table class="table table-striped">
     <tbody>
-
 	@if(isset($errors) && (count($errors) > 0))
-		<div class="alert alert-danger">
+		<div class="alert alert-danger" role="alert">
 			@foreach( $errors->all() as $error)
 				<p>{{$error}}</p>
 			@endforeach
 		</div>
 	@endif
-	@if(isset($lista))
+    @if(isset($sucess) && (count($sucess) > 0))
+        <div class="alert alert-success" role="alert">
+            @foreach( $sucess->all() as $i)
+				<p>{{$i}}</p>
+			@endforeach
+        </div>
+	@endif
+	
+    @if(isset($lista))
      	@for($dia = 1, $itemAnterior = null, $finalSemana = array(1, 4, 5, 11, 12, 19, 20, 25, 26); $dia <= 31; $dia++)
 			@if(in_array($dia, $finalSemana, true))
 				@if($dia < 10)
@@ -72,43 +79,44 @@
                                     <tr id='2019-05-{{$dia}} {{$horario}}:00'>
                                         <td class='horario_td'>
                                             {{$horario}}:00
+                                            <input type="int" class="posicao" id='id_agendamento' name="id_agendamento" value="{{$itemAtual->agendamento->id}}"/>
                                             <input type="number" class="posicao" id='posicao' name="posicao" value="{{$itemAtual->agendamento->posicao}}"/>
                                             <input type="datetime" class="campo_hora" id='data_hora' name="data_hora" value="{{$itemAtual->agendamento->data_hora}}"/>
                                         </td>
                                         <td class='id_td'>
-                                            <input readonly="readonly" type='text' id='id_monitorado' name='id_monitorado' class='id_mon' value="{{$itemAtual->monitorado->id_monitorado}}"/>
+                                            <input disabled='true' type='text' id='id_monitorado' name='id_monitorado' class='id_mon' value="{{$itemAtual->monitorado->id_monitorado}}"/>
                                         </td>
                                         <td class='nome_td'>
-                                            <input readonly="readonly" class='nome_input' id="nome_monitorado" name='nome_monitorado' type="text" value="{{$itemAtual->monitorado->nome}}">
+                                            <input disabled='true' class='nome_input' id="nome_monitorado" name='nome_monitorado' type="text" value="{{$itemAtual->monitorado->nome}}">
                                         </td>
                                         <td class='motivo_td'>
-                                            <select readonly="readonly" class='achou motivo_agendamento' name='motivo'>
+                                            <select disabled='true' class='achou motivo_agendamento' name='motivo'>
                                                 <option value='{{$itemAtual->agendamento->motivo}}'>{{$item->agendamento->motivo}}</option>
                                             </select>
                                         </td>
                                         <td class='materiais_td'>
                                             @if($itemAtual->manutencao->cinta)
-                                                <input type="checkbox" id="ct" name="ct" value="x">
+                                                <input disabled='true' type="checkbox" id="ct" name="ct" value="x" checked >
                                             @else
-                                                <input type="checkbox" id="ct" name="ct" value="x" selected>
+                                                <input disabled='true' type="checkbox" id="ct" name="ct" value="x">
                                             @endif
                                         </td>
                                         <td class='materiais_td'>
                                             @if($itemAtual->manutencao->carregador)
-                                                <input type="checkbox" id="c" name="c" value="x">
+                                                <input disabled='true' type="checkbox" id="c" name="c" value="x" checked>
                                             @else
-                                                <input type="checkbox" id="c" name="c" value="x" selected>
+                                                <input disabled='true' type="checkbox" id="c" name="c" value="x">
                                             @endif
                                         </td>
                                         <td class='materiais_td'>
                                             @if($itemAtual->manutencao->tornozeleira)
-                                                <input type="checkbox" id="t" name="t" value="x">
+                                                <input disabled='true' type="checkbox" id="t" name="t" value="x" checked >
                                             @else
-                                                <input type="checkbox" id="t" name="t" value="x" selected>
+                                                <input disabled='true' type="checkbox" id="t" name="t" value="x">
                                             @endif
                                         </td>
                                         <td class='compareceu_td'>
-                                            <select class='compareceu' name='compareceu'>
+                                            <select class='compareceu' name='compareceu' disabled='true'>
                                                 <option value='{{$itemAtual->manutencao->compareceu}}' selected>{{$itemAtual->manutencao->compareceu}}</option>
                                             </select>
                                         </td>
@@ -117,13 +125,13 @@
                                                 <span class='glyphicon glyphicon-plus'></span>
                                             </a>
                                                                                         
-                                            <a href="{{url('/destroy_agend', $itemAtual->agendamento->id)}}" name='{{$dia}}{{$horario}}delete' class='position action delete'>
+                                            <a class='position action delete'>
                                                 <span class='glyphicon glyphicon-trash'></span>
                                             </a>
                                             
-                                            <button type="submit" onclick="actions('btn2', {{$dia}}, {{$horario}}, {{$qtd}})" class='position action edit'>
+                                            <a class='position action edit'>
                                                 <span class='glyphicon glyphicon-ok'></span>
-                                            </button>
+                                            </a>
 
                                         </td>
                                     </tr>
@@ -135,6 +143,7 @@
                                     <tr id='2019-05-{{$dia}} {{$horario}}:00'>
                                         <td class='horario_td'>
                                             {{$horario}}:00
+                                            <input type="int" class="posicao" id='id_agendamento' name="id_agendamento" value="{{$itemAtual->agendamento->id}}"/>
                                             <input type="number" class="posicao" id='posicao' name="posicao" value="{{$itemAtual->agendamento->posicao}}"/>
                                             <input type="datetime" class="campo_hora" id='data_hora' name="data_hora" value="{{$itemAtual->agendamento->data_hora}}"/>
                                         </td>
@@ -264,43 +273,44 @@
                                     <tr id='2019-05-{{$dia}} {{$horario}}:00'>
                                         <td class='horario_td'>
                                             {{$horario}}:00
+                                            <input type="int" class="posicao" id='id_agendamento' name="id_agendamento" value="{{$itemAtual->agendamento->id}}"/>
                                             <input type="number" class="posicao" id='posicao' name="posicao" value="{{$itemAtual->agendamento->posicao}}"/>
                                             <input type="datetime" class="campo_hora" id='data_hora' name="data_hora" value="{{$itemAtual->agendamento->data_hora}}"/>
                                         </td>
                                         <td class='id_td'>
-                                            <input readonly="readonly" type='text' id='id_monitorado' name='id_monitorado' class='id_mon' value="{{$itemAtual->monitorado->id_monitorado}}"/>
+                                            <input disabled='true' type='text' id='id_monitorado' name='id_monitorado' class='id_mon' value="{{$itemAtual->monitorado->id_monitorado}}"/>
                                         </td>
                                         <td class='nome_td'>
-                                            <input readonly="readonly" class='nome_input' id="nome_monitorado" name='nome_monitorado' type="text" value="{{$itemAtual->monitorado->nome}}">
+                                            <input disabled='true' class='nome_input' id="nome_monitorado" name='nome_monitorado' type="text" value="{{$itemAtual->monitorado->nome}}">
                                         </td>
                                         <td class='motivo_td'>
-                                            <select readonly="readonly" class='achou motivo_agendamento' name='motivo'>
+                                            <select disabled='true' class='achou motivo_agendamento' name='motivo'>
                                                 <option value='{{$itemAtual->agendamento->motivo}}'>{{$item->agendamento->motivo}}</option>
                                             </select>
                                         </td>
                                         <td class='materiais_td'>
                                             @if($itemAtual->manutencao->cinta)
-                                                <input type="checkbox" id="ct" name="ct" value="x">
+                                                <input disabled='true' type="checkbox" id="ct" name="ct" value="x" checked >
                                             @else
-                                                <input type="checkbox" id="ct" name="ct" value="x" selected>
+                                                <input disabled='true' type="checkbox" id="ct" name="ct" value="x">
                                             @endif
                                         </td>
                                         <td class='materiais_td'>
                                             @if($itemAtual->manutencao->carregador)
-                                                <input type="checkbox" id="c" name="c" value="x">
+                                                <input disabled='true' type="checkbox" id="c" name="c" value="x" checked>
                                             @else
-                                                <input type="checkbox" id="c" name="c" value="x" selected>
+                                                <input disabled='true' type="checkbox" id="c" name="c" value="x">
                                             @endif
                                         </td>
                                         <td class='materiais_td'>
                                             @if($itemAtual->manutencao->tornozeleira)
-                                                <input type="checkbox" id="t" name="t" value="x">
+                                                <input disabled='true' type="checkbox" id="t" name="t" value="x" checked >
                                             @else
-                                                <input type="checkbox" id="t" name="t" value="x" selected>
+                                                <input disabled='true' type="checkbox" id="t" name="t" value="x">
                                             @endif
                                         </td>
                                         <td class='compareceu_td'>
-                                            <select class='compareceu' name='compareceu'>
+                                            <select class='compareceu' name='compareceu' disabled='true'>
                                                 <option value='{{$itemAtual->manutencao->compareceu}}' selected>{{$itemAtual->manutencao->compareceu}}</option>
                                             </select>
                                         </td>
@@ -309,13 +319,13 @@
                                                 <span class='glyphicon glyphicon-plus'></span>
                                             </a>
                                                                                         
-                                            <a href="{{url('/destroy_agend', $itemAtual->agendamento->id)}}" name='{{$dia}}{{$horario}}delete' class='position action delete'>
+                                            <a class='position action delete'>
                                                 <span class='glyphicon glyphicon-trash'></span>
                                             </a>
                                             
-                                            <button type="submit" onclick="actions('btn2', {{$dia}}, {{$horario}}, {{$qtd}})" class='position action edit'>
+                                            <a class='position action edit'>
                                                 <span class='glyphicon glyphicon-ok'></span>
-                                            </button>
+                                            </a>
 
                                         </td>
                                     </tr>
@@ -327,6 +337,7 @@
                                     <tr id='2019-05-{{$dia}} {{$horario}}:00'>
                                         <td class='horario_td'>
                                             {{$horario}}:00
+                                            <input type="int" class="posicao" id='id_agendamento' name="id_agendamento" value="{{$itemAtual->agendamento->id}}"/>
                                             <input type="number" class="posicao" id='posicao' name="posicao" value="{{$itemAtual->agendamento->posicao}}"/>
                                             <input type="datetime" class="campo_hora" id='data_hora' name="data_hora" value="{{$itemAtual->agendamento->data_hora}}"/>
                                         </td>
@@ -443,6 +454,6 @@
 	@else
         <h1> Erro ao carregar pagina</h1>        
 	@endif
-</tbody>
+    </tbody>
 </table>
 @endsection

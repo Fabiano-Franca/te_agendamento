@@ -81,27 +81,56 @@ class AgendamentoController extends Controller
                         'monitorado_id' => $monitorado_id
                     ]);
                     if($insert)
-                        return redirect('/maio');
+                        return redirect('/maio')->with(['sucess' => 'Agendamento cadastrado com sucesso.']);
                 }
             }
         }
     }
 
-    public function storeManutencao()
+    public function storeManutencao(AgendamentoFormRequest $request, Monitorado $monitorado, Agendamento $agendamento)
     {   
-        $cinta = false;
-        $carregador = false;
-        $tornozeleira = false;        
-        if($request->input('ct') != null){
-            $cinta = true;
+        $compareceu = $request->input('compareceu');
+
+        if($compareceu == 'sim'){
+            $cinta = false;
+            $carregador = false;
+            $tornozeleira = false;        
+            if($request->input('ct') != null){
+                $cinta = true;
+            }
+            if($request->input('c') != null){
+                $carregador = true;
+            }
+            if($request->input('t') !=  null){
+                $tornozeleira = true;
+            }
+            $insert = $this->manutencao->create([
+                'cinta'     => $cinta,
+                'carregador'       => $carregador,
+                'tornozeleira'        => $tornozeleira,
+                'compareceu'        => $compareceu,
+                'agendamento_id' => $request->input('id_agendamento')
+            ]);
+            if($insert)
+                return redirect()->back()->with(['sucess' => 'Manutencao cadastrada com sucesso.']);
         }
-        if($request->input('c') != null){
-            $carregador = true;
+
+        if($compareceu == 'nao' || $compareceu == 'reagendou' ){
+            $cinta = false;
+            $carregador = false;
+            $tornozeleira = false;        
+            
+            $insert = $this->manutencao->create([
+                'cinta'     => $cinta,
+                'carregador'       => $carregador,
+                'tornozeleira'        => $tornozeleira,
+                'compareceu'        => $compareceu,
+                'agendamento_id' => $request->input('id_agendamento')
+            ]);
+            if($insert)
+                return redirect()->back()->with(['sucess' => 'Manutencao cadastrada com sucesso.']);
         }
-        if($request->input('t') !=  null){
-            $tornozeleira = true;
-        }
-        return "CADASTRO MANUTENCAO";
+        return redirect()->back()->with(['errors' => 'Não foi possivel cadastrar a manutenção.']);
     }
     
     /**
@@ -150,11 +179,25 @@ class AgendamentoController extends Controller
     	$delete = $agendamento->delete();
 
     	if($delete)
-    		return redirect()->back();
+    		return redirect()->back()->with(['sucess' => 'Agendamento excluído com sucesso.']);
     	else
-    		return redirect()->back()->with(['errors' => 'Falha ao editar']);
+    		return redirect()->back()->with(['errors' => 'Erro ao excluir agendamento.']);
     }
     
+    /* Exclusão somente para administradores - Futuro Pacth */
+    public function destroyComManutencao($idAgendamento, $idManutencao)
+    {   
+        $manutencao = $this->manutencao->fin($idManutencao);
+        $deleteManutencao = $manutencao->delete();
+        $agendamento = $this->agendamento->find($idAgendamento);
+    	$deleteAgendamento = $agendamento->delete();
+
+    	if($deleteManutencao && $deleteAgendamento)
+    		return redirect()->back()->with(['sucess' => 'Agendamento excluído com sucesso.']);
+    	else
+    		return redirect()->back()->with(['errors' => 'Erro ao excluir agendamento e manutenção.']);
+    }
+
     /* ------------- LISTA DE AGENDAMENTO DOS MESES 2019  ------------- */
 
     public function listaAgendamentoJaneiro(Agendamento $agendamento, Monitorado $monitorado, AgendamentoMonitorado $agendamentomonitorado)

@@ -51,4 +51,5 @@ Route::group(['namespace' => 'Painel'], function(){
     Route::post('/cadastro_manutencao', 'AgendamentoController@storeManutencao');
     Route::get('/listaagendamento', 'AgendamentoController@listaAgendamento');
     Route::get('/maio', 'AgendamentoController@listaAgendamentoMaio');
+    Route::get('/destroy_agend_manu/{id}/{id}', 'AgendamentoController@destroyComManutencao');
 });
