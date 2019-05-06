@@ -57,33 +57,31 @@ class AgendamentoController extends Controller
      */
     public function store(AgendamentoFormRequest $request, Monitorado $monitorado, Agendamento $agendamento)
     {
-        $requestIDMonitorado = $request->input('id_monitorado');
-        $monitorado = DB::table('monitorado')->where('id_monitorado', '=', $requestIDMonitorado)->get();
-        //$monitorado = $this->monitorado->where('id_monitorado', $requestIDMonitorado);
-        //dd($monitorado);
-        if($monitorado != null){
-            //Verificação da qtd de agendamentos
-            $data = $request->input('data_hora');
-            $posicao = $request->input('posicao');
-            $data_hora = date('Y/m/d H:i', strtotime($data));
-            //dd($data_hora);
-            $agendamentoDB = DB::table('agendamento')->where('data_hora', '=', $data_hora)->get();
-            //dd($agendamentoDB);
-            if(sizeOf($agendamentoDB) < 2){
-                foreach($monitorado as $temp){
-                    $motivo = $request->input('motivo');
-                    $monitorado_id = $temp->id;
-                    //dd($data_hora, $motivo, $monitorado_id);
-                    $insert = $this->agendamento->create([
-                        'data_hora'     => $data_hora,
-                        'posicao'       => $posicao,
-                        'motivo'        => $motivo,
-                        'monitorado_id' => $monitorado_id
-                    ]);
-                    if($insert)
-                        return redirect('/maio')->with(['sucess' => 'Agendamento cadastrado com sucesso.']);
+        try{
+            $requestIDMonitorado = $request->input('id_monitorado');
+            $monitorado = DB::table('monitorado')->where('id_monitorado', '=', $requestIDMonitorado)->get();
+            if($monitorado != null){
+                $data = $request->input('data_hora');
+                $posicao = $request->input('posicao');
+                $data_hora = date('Y/m/d H:i', strtotime($data));
+                $agendamentoDB = DB::table('agendamento')->where('data_hora', '=', $data_hora)->get();
+                if(sizeOf($agendamentoDB) < 2){
+                    foreach($monitorado as $temp){
+                        $motivo = $request->input('motivo');
+                        $monitorado_id = $temp->id;
+                        $insert = $this->agendamento->create([
+                            'data_hora'     => $data_hora,
+                            'posicao'       => $posicao,
+                            'motivo'        => $motivo,
+                            'monitorado_id' => $monitorado_id
+                        ]);
+                        if($insert)
+                            return redirect('/maio')->with('mensagem', 'Agendamento cadastrado com sucesso.');
+                    }
                 }
             }
+        }catch(\Exception $e){
+            return redirect('/maio')->with('erro', 'Não foi possível cadastrar o agendamento. Reinicialize a página!');
         }
     }
 
@@ -104,33 +102,40 @@ class AgendamentoController extends Controller
             if($request->input('t') !=  null){
                 $tornozeleira = true;
             }
-            $insert = $this->manutencao->create([
-                'cinta'     => $cinta,
-                'carregador'       => $carregador,
-                'tornozeleira'        => $tornozeleira,
-                'compareceu'        => $compareceu,
-                'agendamento_id' => $request->input('id_agendamento')
-            ]);
+
+            try{
+                $insert = $this->manutencao->create([
+                    'cinta'     => $cinta,
+                    'carregador'       => $carregador,
+                    'tornozeleira'        => $tornozeleira,
+                    'compareceu'        => $compareceu,
+                    'agendamento_id' => $request->input('id_agendamento')
+                ]);
+            }catch(\Exception $e){
+                return redirect()->back()->with('erro', 'Não foi possivel cadastrar a manutenção.');
+            }
             if($insert)
-                return redirect()->back()->with(['sucess' => 'Manutencao cadastrada com sucesso.']);
+                return redirect()->back()->with('mensagem', 'Manutencao cadastrada com sucesso.');
         }
 
         if($compareceu == 'nao' || $compareceu == 'reagendou' ){
             $cinta = false;
             $carregador = false;
             $tornozeleira = false;        
-            
-            $insert = $this->manutencao->create([
-                'cinta'     => $cinta,
-                'carregador'       => $carregador,
-                'tornozeleira'        => $tornozeleira,
-                'compareceu'        => $compareceu,
-                'agendamento_id' => $request->input('id_agendamento')
-            ]);
+            try{
+                $insert = $this->manutencao->create([
+                    'cinta'     => $cinta,
+                    'carregador'       => $carregador,
+                    'tornozeleira'        => $tornozeleira,
+                    'compareceu'        => $compareceu,
+                    'agendamento_id' => $request->input('id_agendamento')
+                ]);
+            }catch(\Exception $e){
+                return redirect()->back()->with('erro', 'Não foi possivel cadastrar a manutenção.');
+            }
             if($insert)
-                return redirect()->back()->with(['sucess' => 'Manutencao cadastrada com sucesso.']);
+                return redirect()->back()->with('mensagem', 'Manutencao cadastrada com sucesso.');
         }
-        return redirect()->back()->with(['errors' => 'Não foi possivel cadastrar a manutenção.']);
     }
     
     /**
@@ -175,27 +180,29 @@ class AgendamentoController extends Controller
      */
     public function destroy($id)
     {
-        $agendamento = $this->agendamento->find($id);
-    	$delete = $agendamento->delete();
-
-    	if($delete)
-    		return redirect()->back()->with(['sucess' => 'Agendamento excluído com sucesso.']);
-    	else
-    		return redirect()->back()->with(['errors' => 'Erro ao excluir agendamento.']);
+        try{
+            $agendamento = $this->agendamento->find($id);
+        	$delete = $agendamento->delete();
+        }catch(\Exception $e){
+            return redirect()->back()->with('erro', 'Erro ao excluir agendamento.');
+        }
+        if($delete)
+    		return redirect()->back()->with('mensagem', 'Agendamento excluído com sucesso.');
     }
     
     /* Exclusão somente para administradores - Futuro Pacth */
     public function destroyComManutencao($idAgendamento, $idManutencao)
     {   
-        $manutencao = $this->manutencao->fin($idManutencao);
-        $deleteManutencao = $manutencao->delete();
-        $agendamento = $this->agendamento->find($idAgendamento);
-    	$deleteAgendamento = $agendamento->delete();
-
-    	if($deleteManutencao && $deleteAgendamento)
-    		return redirect()->back()->with(['sucess' => 'Agendamento excluído com sucesso.']);
-    	else
-    		return redirect()->back()->with(['errors' => 'Erro ao excluir agendamento e manutenção.']);
+        try{
+            $manutencao = $this->manutencao->fin($idManutencao);
+            $deleteManutencao = $manutencao->delete();
+            $agendamento = $this->agendamento->find($idAgendamento);
+            $deleteAgendamento = $agendamento->delete();
+        }catch(\Exception $e){
+            return redirect()->back()->with('erro', 'Erro ao excluir agendamento e manutenção.');
+        }
+        if($deleteManutencao && $deleteAgendamento)
+    		return redirect()->back()->with('mensagem', 'Agendamento excluído com sucesso.');
     }
 
     /* ------------- LISTA DE AGENDAMENTO DOS MESES 2019  ------------- */
@@ -203,85 +210,101 @@ class AgendamentoController extends Controller
     public function listaAgendamentoJaneiro(Agendamento $agendamento, Monitorado $monitorado, AgendamentoMonitorado $agendamentomonitorado)
     {
         //$agendamentos = $agendamento->all();
-        $agendamentos = DB::table('agendamento')->whereBetween('data_hora', ['2019-05-01', '2019-05-31'])->get();
+        $agendamentos = DB::table('agendamento')->whereBetween('data_hora', ['2019-01-01', '2019-01-31'])->get();
         $lista = array();
         if(isset($agendamentos) && $agendamentos != null){
             foreach($agendamentos as $agendamento){
+                $manutencaoDB = null;
+                $manutencao = null;
                 $agendamentomonitorado = new AgendamentoMonitorado();
                 $monitorado = $this->monitorado->find($agendamento->monitorado_id);
                 $agendamentomonitorado->monitorado = $monitorado;
                 $agendamentomonitorado->agendamento = $agendamento;
                 $manutencaoDB = DB::table('manutencao')->where('agendamento_id', '=', $agendamento->id)->get();
-                $manutencao = $manutencaoDB[0];
+                if(isset($manutencaoDB[0])){
+                    $manutencao = $manutencaoDB[0];
+                }
                 $agendamentomonitorado->manutencao = $manutencao;
                 array_push($lista, $agendamentomonitorado);
             }
         }
         //dd($lista);
-        return view('site.maio', compact('lista'));
+        return view('site.janeiro', compact('lista'));
     }
 
     public function listaAgendamentoFevereiro(Agendamento $agendamento, Monitorado $monitorado, AgendamentoMonitorado $agendamentomonitorado)
     {
         //$agendamentos = $agendamento->all();
-        $agendamentos = DB::table('agendamento')->whereBetween('data_hora', ['2019-05-01', '2019-05-31'])->get();
+        $agendamentos = DB::table('agendamento')->whereBetween('data_hora', ['2019-02-01', '2019-02-30'])->get();
         $lista = array();
         if(isset($agendamentos) && $agendamentos != null){
             foreach($agendamentos as $agendamento){
+                $manutencaoDB = null;
+                $manutencao = null;
                 $agendamentomonitorado = new AgendamentoMonitorado();
                 $monitorado = $this->monitorado->find($agendamento->monitorado_id);
                 $agendamentomonitorado->monitorado = $monitorado;
                 $agendamentomonitorado->agendamento = $agendamento;
                 $manutencaoDB = DB::table('manutencao')->where('agendamento_id', '=', $agendamento->id)->get();
-                $manutencao = $manutencaoDB[0];
+                if(isset($manutencaoDB[0])){
+                    $manutencao = $manutencaoDB[0];
+                }
                 $agendamentomonitorado->manutencao = $manutencao;
                 array_push($lista, $agendamentomonitorado);
             }
         }
         //dd($lista);
-        return view('site.maio', compact('lista'));
+        return view('site.fevereiro', compact('lista'));
     }
 
     public function listaAgendamentoMarco(Agendamento $agendamento, Monitorado $monitorado, AgendamentoMonitorado $agendamentomonitorado)
     {
         //$agendamentos = $agendamento->all();
-        $agendamentos = DB::table('agendamento')->whereBetween('data_hora', ['2019-05-01', '2019-05-31'])->get();
+        $agendamentos = DB::table('agendamento')->whereBetween('data_hora', ['2019-03-01', '2019-03-31'])->get();
         $lista = array();
         if(isset($agendamentos) && $agendamentos != null){
             foreach($agendamentos as $agendamento){
+                $manutencaoDB = null;
+                $manutencao = null;
                 $agendamentomonitorado = new AgendamentoMonitorado();
                 $monitorado = $this->monitorado->find($agendamento->monitorado_id);
                 $agendamentomonitorado->monitorado = $monitorado;
                 $agendamentomonitorado->agendamento = $agendamento;
                 $manutencaoDB = DB::table('manutencao')->where('agendamento_id', '=', $agendamento->id)->get();
-                $manutencao = $manutencaoDB[0];
+                if(isset($manutencaoDB[0])){
+                    $manutencao = $manutencaoDB[0];
+                }
                 $agendamentomonitorado->manutencao = $manutencao;
                 array_push($lista, $agendamentomonitorado);
             }
         }
         //dd($lista);
-        return view('site.maio', compact('lista'));
+        return view('site.marco', compact('lista'));
     }
 
     public function listaAgendamentoAbril(Agendamento $agendamento, Monitorado $monitorado, AgendamentoMonitorado $agendamentomonitorado)
     {
         //$agendamentos = $agendamento->all();
-        $agendamentos = DB::table('agendamento')->whereBetween('data_hora', ['2019-05-01', '2019-05-31'])->get();
+        $agendamentos = DB::table('agendamento')->whereBetween('data_hora', ['2019-04-01', '2019-04-30'])->get();
         $lista = array();
         if(isset($agendamentos) && $agendamentos != null){
             foreach($agendamentos as $agendamento){
+                $manutencaoDB = null;
+                $manutencao = null;
                 $agendamentomonitorado = new AgendamentoMonitorado();
                 $monitorado = $this->monitorado->find($agendamento->monitorado_id);
                 $agendamentomonitorado->monitorado = $monitorado;
                 $agendamentomonitorado->agendamento = $agendamento;
                 $manutencaoDB = DB::table('manutencao')->where('agendamento_id', '=', $agendamento->id)->get();
-                $manutencao = $manutencaoDB[0];
+                if(isset($manutencaoDB[0])){
+                    $manutencao = $manutencaoDB[0];
+                }
                 $agendamentomonitorado->manutencao = $manutencao;
                 array_push($lista, $agendamentomonitorado);
             }
         }
         //dd($lista);
-        return view('site.maio', compact('lista'));
+        return view('site.abril', compact('lista'));
     }
 
     public function listaAgendamentoMaio(Agendamento $agendamento, Monitorado $monitorado, AgendamentoMonitorado $agendamentomonitorado)
@@ -291,164 +314,203 @@ class AgendamentoController extends Controller
         $lista = array();
         if(isset($agendamentos) && $agendamentos != null){
             foreach($agendamentos as $agendamento){
+                $manutencaoDB = null;
+                $manutencao = null;
                 $agendamentomonitorado = new AgendamentoMonitorado();
                 $monitorado = $this->monitorado->find($agendamento->monitorado_id);
                 $agendamentomonitorado->monitorado = $monitorado;
                 $agendamentomonitorado->agendamento = $agendamento;
                 $manutencaoDB = DB::table('manutencao')->where('agendamento_id', '=', $agendamento->id)->get();
-                $manutencao = $manutencaoDB[0];
+                if(isset($manutencaoDB[0])){
+                    $manutencao = $manutencaoDB[0];
+                }
                 $agendamentomonitorado->manutencao = $manutencao;
                 array_push($lista, $agendamentomonitorado);
             }
         }
-        //dd($lista);
-        return view('site.maio', compact('lista'));
+        $lista_key_monitorado = array();
+        $lista_nome_monitorado = array();
+        $monitorados = $monitorado->all();
+        foreach($monitorados as $monitorado){
+            array_push($lista_key_monitorado, $monitorado->id_monitorado);
+            array_push($lista_nome_monitorado, $monitorado->nome);
+        }
+        //dd($lista_monitorado);
+        return view('site.maio', compact('lista', 'lista_key_monitorado', 'lista_nome_monitorado'));
     }
 
     public function listaAgendamentoJunho(Agendamento $agendamento, Monitorado $monitorado, AgendamentoMonitorado $agendamentomonitorado)
     {
         //$agendamentos = $agendamento->all();
-        $agendamentos = DB::table('agendamento')->whereBetween('data_hora', ['2019-05-01', '2019-05-31'])->get();
+        $agendamentos = DB::table('agendamento')->whereBetween('data_hora', ['2019-06-01', '2019-06-30'])->get();
         $lista = array();
         if(isset($agendamentos) && $agendamentos != null){
             foreach($agendamentos as $agendamento){
+                $manutencaoDB = null;
+                $manutencao = null;
                 $agendamentomonitorado = new AgendamentoMonitorado();
                 $monitorado = $this->monitorado->find($agendamento->monitorado_id);
                 $agendamentomonitorado->monitorado = $monitorado;
                 $agendamentomonitorado->agendamento = $agendamento;
                 $manutencaoDB = DB::table('manutencao')->where('agendamento_id', '=', $agendamento->id)->get();
-                $manutencao = $manutencaoDB[0];
+                if(isset($manutencaoDB[0])){
+                    $manutencao = $manutencaoDB[0];
+                }
                 $agendamentomonitorado->manutencao = $manutencao;
                 array_push($lista, $agendamentomonitorado);
             }
         }
         //dd($lista);
-        return view('site.maio', compact('lista'));
+        return view('site.junho', compact('lista'));
     }
 
     public function listaAgendamentoJulho(Agendamento $agendamento, Monitorado $monitorado, AgendamentoMonitorado $agendamentomonitorado)
     {
         //$agendamentos = $agendamento->all();
-        $agendamentos = DB::table('agendamento')->whereBetween('data_hora', ['2019-05-01', '2019-05-31'])->get();
+        $agendamentos = DB::table('agendamento')->whereBetween('data_hora', ['2019-07-01', '2019-07-31'])->get();
         $lista = array();
         if(isset($agendamentos) && $agendamentos != null){
             foreach($agendamentos as $agendamento){
+                $manutencaoDB = null;
+                $manutencao = null;
                 $agendamentomonitorado = new AgendamentoMonitorado();
                 $monitorado = $this->monitorado->find($agendamento->monitorado_id);
                 $agendamentomonitorado->monitorado = $monitorado;
                 $agendamentomonitorado->agendamento = $agendamento;
                 $manutencaoDB = DB::table('manutencao')->where('agendamento_id', '=', $agendamento->id)->get();
-                $manutencao = $manutencaoDB[0];
+                if(isset($manutencaoDB[0])){
+                    $manutencao = $manutencaoDB[0];
+                }
                 $agendamentomonitorado->manutencao = $manutencao;
                 array_push($lista, $agendamentomonitorado);
             }
         }
         //dd($lista);
-        return view('site.maio', compact('lista'));
+        return view('site.julho', compact('lista'));
     }
 
     public function listaAgendamentoAgosto(Agendamento $agendamento, Monitorado $monitorado, AgendamentoMonitorado $agendamentomonitorado)
     {
         //$agendamentos = $agendamento->all();
-        $agendamentos = DB::table('agendamento')->whereBetween('data_hora', ['2019-05-01', '2019-05-31'])->get();
+        $agendamentos = DB::table('agendamento')->whereBetween('data_hora', ['2019-08-01', '2019-08-31'])->get();
         $lista = array();
         if(isset($agendamentos) && $agendamentos != null){
             foreach($agendamentos as $agendamento){
+                $manutencaoDB = null;
+                $manutencao = null;
                 $agendamentomonitorado = new AgendamentoMonitorado();
                 $monitorado = $this->monitorado->find($agendamento->monitorado_id);
                 $agendamentomonitorado->monitorado = $monitorado;
                 $agendamentomonitorado->agendamento = $agendamento;
                 $manutencaoDB = DB::table('manutencao')->where('agendamento_id', '=', $agendamento->id)->get();
-                $manutencao = $manutencaoDB[0];
+                if(isset($manutencaoDB[0])){
+                    $manutencao = $manutencaoDB[0];
+                }
                 $agendamentomonitorado->manutencao = $manutencao;
                 array_push($lista, $agendamentomonitorado);
             }
         }
         //dd($lista);
-        return view('site.maio', compact('lista'));
+        return view('site.agosto', compact('lista'));
     }
     public function listaAgendamentoSetembro(Agendamento $agendamento, Monitorado $monitorado, AgendamentoMonitorado $agendamentomonitorado)
     {
         //$agendamentos = $agendamento->all();
-        $agendamentos = DB::table('agendamento')->whereBetween('data_hora', ['2019-05-01', '2019-05-31'])->get();
+        $agendamentos = DB::table('agendamento')->whereBetween('data_hora', ['2019-09-01', '2019-09-30'])->get();
         $lista = array();
         if(isset($agendamentos) && $agendamentos != null){
             foreach($agendamentos as $agendamento){
+                $manutencaoDB = null;
+                $manutencao = null;
                 $agendamentomonitorado = new AgendamentoMonitorado();
                 $monitorado = $this->monitorado->find($agendamento->monitorado_id);
                 $agendamentomonitorado->monitorado = $monitorado;
                 $agendamentomonitorado->agendamento = $agendamento;
                 $manutencaoDB = DB::table('manutencao')->where('agendamento_id', '=', $agendamento->id)->get();
-                $manutencao = $manutencaoDB[0];
+                if(isset($manutencaoDB[0])){
+                    $manutencao = $manutencaoDB[0];
+                }
                 $agendamentomonitorado->manutencao = $manutencao;
                 array_push($lista, $agendamentomonitorado);
             }
         }
         //dd($lista);
-        return view('site.maio', compact('lista'));
+        return view('site.setembro', compact('lista'));
     }
 
     public function listaAgendamentoOutubro(Agendamento $agendamento, Monitorado $monitorado, AgendamentoMonitorado $agendamentomonitorado)
     {
         //$agendamentos = $agendamento->all();
-        $agendamentos = DB::table('agendamento')->whereBetween('data_hora', ['2019-05-01', '2019-05-31'])->get();
+        $agendamentos = DB::table('agendamento')->whereBetween('data_hora', ['2019-10-01', '2019-10-31'])->get();
         $lista = array();
         if(isset($agendamentos) && $agendamentos != null){
             foreach($agendamentos as $agendamento){
+                $manutencaoDB = null;
+                $manutencao = null;
                 $agendamentomonitorado = new AgendamentoMonitorado();
                 $monitorado = $this->monitorado->find($agendamento->monitorado_id);
                 $agendamentomonitorado->monitorado = $monitorado;
                 $agendamentomonitorado->agendamento = $agendamento;
                 $manutencaoDB = DB::table('manutencao')->where('agendamento_id', '=', $agendamento->id)->get();
-                $manutencao = $manutencaoDB[0];
+                if(isset($manutencaoDB[0])){
+                    $manutencao = $manutencaoDB[0];
+                }
                 $agendamentomonitorado->manutencao = $manutencao;
                 array_push($lista, $agendamentomonitorado);
             }
         }
         //dd($lista);
-        return view('site.maio', compact('lista'));
+        return view('site.outubro', compact('lista'));
     }
 
     public function listaAgendamentoNovembro(Agendamento $agendamento, Monitorado $monitorado, AgendamentoMonitorado $agendamentomonitorado)
     {
         //$agendamentos = $agendamento->all();
-        $agendamentos = DB::table('agendamento')->whereBetween('data_hora', ['2019-05-01', '2019-05-31'])->get();
+        $agendamentos = DB::table('agendamento')->whereBetween('data_hora', ['2019-11-01', '2019-11-30'])->get();
         $lista = array();
         if(isset($agendamentos) && $agendamentos != null){
             foreach($agendamentos as $agendamento){
+                $manutencaoDB = null;
+                $manutencao = null;
                 $agendamentomonitorado = new AgendamentoMonitorado();
                 $monitorado = $this->monitorado->find($agendamento->monitorado_id);
                 $agendamentomonitorado->monitorado = $monitorado;
                 $agendamentomonitorado->agendamento = $agendamento;
                 $manutencaoDB = DB::table('manutencao')->where('agendamento_id', '=', $agendamento->id)->get();
-                $manutencao = $manutencaoDB[0];
+                if(isset($manutencaoDB[0])){
+                    $manutencao = $manutencaoDB[0];
+                }
                 $agendamentomonitorado->manutencao = $manutencao;
                 array_push($lista, $agendamentomonitorado);
             }
         }
         //dd($lista);
-        return view('site.maio', compact('lista'));
+        return view('site.novembro', compact('lista'));
     }
 
     public function listaAgendamentoDezembro(Agendamento $agendamento, Monitorado $monitorado, AgendamentoMonitorado $agendamentomonitorado)
     {
         //$agendamentos = $agendamento->all();
-        $agendamentos = DB::table('agendamento')->whereBetween('data_hora', ['2019-05-01', '2019-05-31'])->get();
+        $agendamentos = DB::table('agendamento')->whereBetween('data_hora', ['2019-12-01', '2019-12-31'])->get();
         $lista = array();
         if(isset($agendamentos) && $agendamentos != null){
             foreach($agendamentos as $agendamento){
+                $manutencaoDB = null;
+                $manutencao = null;
                 $agendamentomonitorado = new AgendamentoMonitorado();
                 $monitorado = $this->monitorado->find($agendamento->monitorado_id);
                 $agendamentomonitorado->monitorado = $monitorado;
                 $agendamentomonitorado->agendamento = $agendamento;
                 $manutencaoDB = DB::table('manutencao')->where('agendamento_id', '=', $agendamento->id)->get();
-                $manutencao = $manutencaoDB[0];
+                if(isset($manutencaoDB[0])){
+                    $manutencao = $manutencaoDB[0];
+                }
                 $agendamentomonitorado->manutencao = $manutencao;
                 array_push($lista, $agendamentomonitorado);
             }
         }
         //dd($lista);
-        return view('site.maio', compact('lista'));
+        return view('site.dezembro', compact('lista'));
     }
 
 }

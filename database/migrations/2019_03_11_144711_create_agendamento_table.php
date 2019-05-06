@@ -17,7 +17,7 @@ class CreateAgendamentoTable extends Migration
             $table->increments('id')->unique();
             $table->dateTime('data_hora');
             $table->integer('posicao');
-            $table->enum('motivo', ['Tornozeleira rompida', 'Aparelho não liga', 'Troca de carregador', 'Sem comunicação', 'Sem sinal GPS', 'Não segura carga', 'Reativação', 'Devolução']);
+            $table->enum('motivo', ['Tornozeleira rompida', 'Aparelho não liga', 'Troca de carregador', 'Sem comunicação', 'Sem sinal GPS', 'Não segura carga', 'Reativação', 'Devolução', 'Pendente']);
             $table->integer('monitorado_id')->unsigned();
             $table->foreign('monitorado_id')->references('id')->on('monitorado');
             $table->timestamps();

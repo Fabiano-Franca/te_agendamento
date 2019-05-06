@@ -85,6 +85,7 @@ class ComposerStaticInitcea52d958159a4e734a1c91a644e5d2f
             'Psr\\Http\\Message\\' => 17,
             'Psr\\Container\\' => 14,
             'PhpParser\\' => 10,
+            'PHPJasper\\' => 10,
         ),
         'O' => 
         array (
@@ -276,6 +277,10 @@ class ComposerStaticInitcea52d958159a4e734a1c91a644e5d2f
         array (
             0 => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser',
         ),
+        'PHPJasper\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/lavela/phpjasper/src',
+        ),
         'Opis\\Closure\\' => 
         array (
             0 => __DIR__ . '/..' . '/opis/closure/src',
@@ -428,8 +433,9 @@ class ComposerStaticInitcea52d958159a4e734a1c91a644e5d2f
         'App\\Http\\Controllers\\Auth\\ResetPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ResetPasswordController.php',
         'App\\Http\\Controllers\\Auth\\VerificationController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/VerificationController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
+        'App\\Http\\Controllers\\Painel\\AgendamentoController' => __DIR__ . '/../..' . '/app/Http/Controllers/Painel/AgendamentoController.php',
+        'App\\Http\\Controllers\\Painel\\MonitoradoController' => __DIR__ . '/../..' . '/app/Http/Controllers/Painel/MonitoradoController.php',
         'App\\Http\\Controllers\\SiteController' => __DIR__ . '/../..' . '/app/Http/Controllers/SiteController.php',
-        'App\\Http\\Controllers\\Site\\SiteController' => __DIR__ . '/../..' . '/app/Http/Controllers/Site/SiteController.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',
         'App\\Http\\Middleware\\Authenticate' => __DIR__ . '/../..' . '/app/Http/Middleware/Authenticate.php',
         'App\\Http\\Middleware\\CheckForMaintenanceMode' => __DIR__ . '/../..' . '/app/Http/Middleware/CheckForMaintenanceMode.php',
@@ -438,6 +444,12 @@ class ComposerStaticInitcea52d958159a4e734a1c91a644e5d2f
         'App\\Http\\Middleware\\TrimStrings' => __DIR__ . '/../..' . '/app/Http/Middleware/TrimStrings.php',
         'App\\Http\\Middleware\\TrustProxies' => __DIR__ . '/../..' . '/app/Http/Middleware/TrustProxies.php',
         'App\\Http\\Middleware\\VerifyCsrfToken' => __DIR__ . '/../..' . '/app/Http/Middleware/VerifyCsrfToken.php',
+        'App\\Http\\Requests\\AgendamentoFormRequest' => __DIR__ . '/../..' . '/app/Http/Requests/AgendamentoFormRequest.php',
+        'App\\Http\\Requests\\MonitoradoFormRequest' => __DIR__ . '/../..' . '/app/Http/Requests/MonitoradoFormRequest.php',
+        'App\\Models\\Painel\\Agendamento' => __DIR__ . '/../..' . '/app/Models/Painel/Agendamento.php',
+        'App\\Models\\Painel\\AgendamentoMonitorado' => __DIR__ . '/../..' . '/app/Models/Painel/AgendamentoMonitorado.php',
+        'App\\Models\\Painel\\Manutencao' => __DIR__ . '/../..' . '/app/Models/Painel/Manutencao.php',
+        'App\\Models\\Painel\\Monitorado' => __DIR__ . '/../..' . '/app/Models/Painel/Monitorado.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
         'App\\Providers\\AuthServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AuthServiceProvider.php',
         'App\\Providers\\BroadcastServiceProvider' => __DIR__ . '/../..' . '/app/Providers/BroadcastServiceProvider.php',
@@ -2387,6 +2399,12 @@ class ComposerStaticInitcea52d958159a4e734a1c91a644e5d2f
         'Opis\\Closure\\SecurityProvider' => __DIR__ . '/..' . '/opis/closure/src/SecurityProvider.php',
         'Opis\\Closure\\SelfReference' => __DIR__ . '/..' . '/opis/closure/src/SelfReference.php',
         'Opis\\Closure\\SerializableClosure' => __DIR__ . '/..' . '/opis/closure/src/SerializableClosure.php',
+        'PHPJasper\\Exception\\ErrorCommandExecutable' => __DIR__ . '/..' . '/lavela/phpjasper/src/Exception/ErrorCommandExecutable.php',
+        'PHPJasper\\Exception\\InvalidCommandExecutable' => __DIR__ . '/..' . '/lavela/phpjasper/src/Exception/InvalidCommandExecutable.php',
+        'PHPJasper\\Exception\\InvalidFormat' => __DIR__ . '/..' . '/lavela/phpjasper/src/Exception/InvalidFormat.php',
+        'PHPJasper\\Exception\\InvalidInputFile' => __DIR__ . '/..' . '/lavela/phpjasper/src/Exception/InvalidInputFile.php',
+        'PHPJasper\\Exception\\InvalidResourceDirectory' => __DIR__ . '/..' . '/lavela/phpjasper/src/Exception/InvalidResourceDirectory.php',
+        'PHPJasper\\PHPJasper' => __DIR__ . '/..' . '/lavela/phpjasper/src/PHPJasper.php',
         'PHPUnit\\Exception' => __DIR__ . '/..' . '/phpunit/phpunit/src/Exception.php',
         'PHPUnit\\Framework\\Assert' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Assert.php',
         'PHPUnit\\Framework\\AssertionFailedError' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/AssertionFailedError.php',

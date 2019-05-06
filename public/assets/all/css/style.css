@@ -45,6 +45,7 @@ h1 {
 
 .container {
 	margin-left: auto;
+	width: 1400px !important;
 	align-content: center;
 }
 

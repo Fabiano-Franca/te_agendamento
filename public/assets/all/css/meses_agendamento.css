@@ -1,5 +1,12 @@
 /* Inicio: Estilos das datas*/
 
+.diaFeriado {
+    color: red;
+    border: 1px black;
+    background-color: azure;
+    font-size: 12px;
+}
+
 .finalDeSemana {
     color: red;
     border: 1px black;
@@ -7,14 +14,12 @@
     font-size: 12px;
 }
 
-.finalDeSemana:hover {
-    color: darkgrey;
-}
+
 
 .dia_agendamento {
     color: black;
     font-size: 15px;
-    background-color: rgb(57, 220, 37);
+    background-color: rgb(181, 179, 184);
     text-align: center;
 }
 
@@ -30,36 +35,78 @@
 	margin-left: auto;
 	margin-right: auto;
 }
+
+.compareceu{
+    width: 120px;
+}
 /*Fim: */
 
 /* Inicio:  Style TDs ----------*/
 
-.hora {
-	size: 20px;
+th#hora {
+    width: 80px;
+    text-align: left;
+    padding-left: 10px !important;
 }
 
-.nome_mon {
-	width: 500px;
+th#id {
+    width: 80px;
+}
+
+td.id_td {
+    width: 65px;
+}
+
+th#monitorado {
+    width: 460px;
+}
+
+#nome_monitorado.nome_input {
+    width: 100%;
+    text-align: left;
+    margin: 0px;
+}
+
+td.nome_td  { 
+    width: 300px;
+} 
+
+th#motivo {
+    width: 300px;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+th#ct, th#c, th#t {
+    text-align: left;
+    width: 50px;
+}
+
+td.compareceu_td {
+    width: 90px;
 }
 
 .materiais {
   width: 30px;
 }
 
-.nome_input{
-	width: 100%;
+td.motivo_td {
+    width: 200px;
 }
 
-.horario_td{
-	width: 50px;
+select.achou.motivo_agendamento {
+    width: 180px;
+}
+
+td.horario_td{
+    width: 50px;
+    padding-left: 15px !important;
+    padding-right: 0px !important;
+    vertical-align: inherit !important;
 }
 
 .id_td{
 	width: 10px;
-}
-
-.motivo_td{
-	width: 200px;
 }
 
 .compareceu_td{
@@ -74,46 +121,15 @@
 .th-menu p {
     padding: 0px;
 }
-#hora {
-    width: 52px;
-}
-
-#id {
-    width: 76px;
-}
-
-#monitorado {
-    width: 448px;
-}
-
-#motivo {
-    width: 200px;
-}
-
-#compareceu {
-    width: 106px;
-}
-
-#ct {
-    width: 46px;
-}
-
-#c {
-    width: 46px;
-}
-
-#t {
-    width: 46px;
-}
-
-#acao {
-    width: 120px;
-}
 
 .campo_hora, .posicao{
     visibility: hidden;
     display: none;
     z-index: -1;
+}
+
+.motivo_agendamento {
+    width: 190px;
 }
 
 /* Fim:  Style TDs ----------*/
@@ -122,7 +138,11 @@
 /* Inicio: Botoes de ADD, EDIT e DELET*/
 
 .acao_agend {
-	width: 120px;
+	width: 90px;
+}
+
+#acao{
+    width: 150px;
 }
 
 .add {
@@ -152,10 +172,14 @@
 
 .position {
 	display: inline;
-	float: left;
+	
 }
 
 button.position{
     border: 0px;
+}
+
+tr>*{
+    padding: 0px !important;
 }
 /*Fim: Botoes de ADD, EDIT e DELET */

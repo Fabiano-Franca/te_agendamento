@@ -30,12 +30,15 @@ class MonitoradoController extends Controller
     }
 
     public function cadastro(MonitoradoFormRequest $request)
-    {
-        $dataForm = $request->only(['id_monitorado', 'nome']);
-        $insert = $this->monitorado->create($dataForm);
-
+    {   
+        try {
+            $dataForm = $request->only(['id_monitorado', 'nome']);
+            $insert = $this->monitorado->create($dataForm);
+        }catch(\Exception $e){
+            return back()->with('erro', 'Não foi possível cadastrar o monitorado.');
+        }
         if($insert)
-            return redirect('/lista_monitorados')->with(['sucess' => 'Monitorado cadastrado com sucesso.']);
+            return back()->with('mensagem', 'Monitorado cadastrado com sucesso.');
     }
 
     public function edit($id, Monitorado $monitorado)
@@ -47,15 +50,16 @@ class MonitoradoController extends Controller
     }
 
     public function update(MonitoradoFormRequest $request, $id)
-    {
-        $dataForm = $request->all();
-        $monitorado_update = $this->monitorado->find($id);
-    	$update = $monitorado_update->update($dataForm);
-
-    	if($update)
-    		return redirect('/lista_monitorados')->with(['sucess' => 'Monitorado alterado com sucesso.']);
-    	else
-    		return redirect('/lista_monitorados')->with(['errors' => 'Falha ao editar monitorado.']);
+    {   
+        try{
+            $dataForm = $request->all();
+            $monitorado_update = $this->monitorado->find($id);
+            $update = $monitorado_update->update($dataForm);
+        }catch(\Exception $e ){
+            return redirect('/lista_monitorados')->with(['errors' => 'Falha ao editar monitorado.']);
+        }
+        if($update)
+    		return redirect('/lista_monitorados')->with(['success' => 'Monitorado alterado com sucesso.']);
     }
 
     public function procura_monitorado(MonitoradoFormRequest $request, $id)
@@ -71,12 +75,13 @@ class MonitoradoController extends Controller
 
     public function destroy($id)
     {
-        $monitorado_delete = $this->monitorado->find($id);
-    	$delete = $monitorado_delete->delete();
-
-    	if($delete)
-    		return redirect('/lista_monitorados')->with(['sucess' => 'Monitorado excluído com sucesso.']);
-    	else
-    		return redirect('/lista_monitorados')->with(['errors' => 'Falha ao excluír o monitorado.']);
+        try{
+            $monitorado_delete = $this->monitorado->find($id);
+    	    $delete = $monitorado_delete->delete();
+        }catch(\Exception $e ){
+            return redirect('/lista_monitorados')->with(['errors' => 'Falha ao excluír o monitorado.']);
+        }
+        if($delete)
+    		return redirect('/lista_monitorados')->with(['success' => 'Monitorado excluído com sucesso.']);
     }
 }
