@@ -415,6 +415,13 @@ class ComposerStaticInitcea52d958159a4e734a1c91a644e5d2f
                 0 => __DIR__ . '/..' . '/mockery/mockery/library',
             ),
         ),
+        'J' => 
+        array (
+            'JasperPHP' => 
+            array (
+                0 => __DIR__ . '/..' . '/cossou/jasperphp/src',
+            ),
+        ),
         'D' => 
         array (
             'Doctrine\\Common\\Lexer\\' => 
@@ -435,6 +442,7 @@ class ComposerStaticInitcea52d958159a4e734a1c91a644e5d2f
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Controllers\\Painel\\AgendamentoController' => __DIR__ . '/../..' . '/app/Http/Controllers/Painel/AgendamentoController.php',
         'App\\Http\\Controllers\\Painel\\MonitoradoController' => __DIR__ . '/../..' . '/app/Http/Controllers/Painel/MonitoradoController.php',
+        'App\\Http\\Controllers\\Painel\\ReportController' => __DIR__ . '/../..' . '/app/Http/Controllers/Painel/ReportController.php',
         'App\\Http\\Controllers\\SiteController' => __DIR__ . '/../..' . '/app/Http/Controllers/SiteController.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',
         'App\\Http\\Middleware\\Authenticate' => __DIR__ . '/../..' . '/app/Http/Middleware/Authenticate.php',
@@ -1987,6 +1995,9 @@ class ComposerStaticInitcea52d958159a4e734a1c91a644e5d2f
         'JakubOnderka\\PhpConsoleColor\\ConsoleColor' => __DIR__ . '/..' . '/jakub-onderka/php-console-color/src/ConsoleColor.php',
         'JakubOnderka\\PhpConsoleColor\\InvalidStyleException' => __DIR__ . '/..' . '/jakub-onderka/php-console-color/src/InvalidStyleException.php',
         'JakubOnderka\\PhpConsoleHighlighter\\Highlighter' => __DIR__ . '/..' . '/jakub-onderka/php-console-highlighter/src/Highlighter.php',
+        'JasperPHP\\Facades\\JasperPHP' => __DIR__ . '/..' . '/cossou/jasperphp/src/JasperPHP/Facades/JasperPHP.php',
+        'JasperPHP\\JasperPHP' => __DIR__ . '/..' . '/cossou/jasperphp/src/JasperPHP/JasperPHP.php',
+        'JasperPHP\\JasperPHPServiceProvider' => __DIR__ . '/..' . '/cossou/jasperphp/src/JasperPHP/JasperPHPServiceProvider.php',
         'JsonSerializable' => __DIR__ . '/..' . '/nesbot/carbon/src/JsonSerializable.php',
         'Laravel\\Tinker\\ClassAliasAutoloader' => __DIR__ . '/..' . '/laravel/tinker/src/ClassAliasAutoloader.php',
         'Laravel\\Tinker\\Console\\TinkerCommand' => __DIR__ . '/..' . '/laravel/tinker/src/Console/TinkerCommand.php',

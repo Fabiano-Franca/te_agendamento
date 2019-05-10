@@ -26,6 +26,7 @@ Route::group(['namespace' => 'Painel'], function(){
     Route::get('/outubro', 'AgendamentoController@listaAgendamentoOutubro');
     Route::get('/novembro', 'AgendamentoController@listaAgendamentoNovembro');
     Route::get('/dezembro', 'AgendamentoController@listaAgendamentoDezembro');
+    Route::get('/relatorio_teste', 'ReportController@index');
 });
 
 /* -------------- MONITORADO ----------------------*/
