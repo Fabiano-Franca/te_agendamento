@@ -651,6 +651,54 @@
         ]
     },
     {
+        "name": "geekcom/phpjasper-laravel",
+        "version": "v1.1",
+        "version_normalized": "1.1.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/PHPJasper/phpjasper-laravel.git",
+            "reference": "f15078b15d1373636d324118396fa8b16163ad9d"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/PHPJasper/phpjasper-laravel/zipball/f15078b15d1373636d324118396fa8b16163ad9d",
+            "reference": "f15078b15d1373636d324118396fa8b16163ad9d",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=7.0"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "^6.1",
+            "squizlabs/php_codesniffer": "^3.1"
+        },
+        "time": "2018-03-05T16:16:36+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "PHPJasper\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Daniel Rodrigues Lima",
+                "email": "danielrodrigues-ti@hotmail.com",
+                "role": "lead"
+            }
+        ],
+        "description": "A PHP report generator",
+        "keywords": [
+            "pdf",
+            "php-reports",
+            "reports"
+        ]
+    },
+    {
         "name": "guzzlehttp/guzzle",
         "version": "6.3.3",
         "version_normalized": "6.3.3.0",

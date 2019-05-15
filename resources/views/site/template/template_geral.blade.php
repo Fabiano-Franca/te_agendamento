@@ -29,6 +29,7 @@
 					<li><a href="{{ url('/outubro') }}">Outubro</a></li>
 					<li><a href="{{ url('/novembro') }}">Novembro</a></li>
 					<li><a href="{{ url('/dezembro') }}">Dezembro</a></li>
+					<li><a href="{{ url('/relatorio_teste') }}">Relatório</a></li>
 				</ul>
 			</nav>
 			<div class="container">

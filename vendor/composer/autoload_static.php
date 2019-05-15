@@ -279,7 +279,8 @@ class ComposerStaticInitcea52d958159a4e734a1c91a644e5d2f
         ),
         'PHPJasper\\' => 
         array (
-            0 => __DIR__ . '/..' . '/lavela/phpjasper/src',
+            0 => __DIR__ . '/..' . '/geekcom/phpjasper-laravel/src',
+            1 => __DIR__ . '/..' . '/lavela/phpjasper/src',
         ),
         'Opis\\Closure\\' => 
         array (
@@ -2410,12 +2411,13 @@ class ComposerStaticInitcea52d958159a4e734a1c91a644e5d2f
         'Opis\\Closure\\SecurityProvider' => __DIR__ . '/..' . '/opis/closure/src/SecurityProvider.php',
         'Opis\\Closure\\SelfReference' => __DIR__ . '/..' . '/opis/closure/src/SelfReference.php',
         'Opis\\Closure\\SerializableClosure' => __DIR__ . '/..' . '/opis/closure/src/SerializableClosure.php',
-        'PHPJasper\\Exception\\ErrorCommandExecutable' => __DIR__ . '/..' . '/lavela/phpjasper/src/Exception/ErrorCommandExecutable.php',
-        'PHPJasper\\Exception\\InvalidCommandExecutable' => __DIR__ . '/..' . '/lavela/phpjasper/src/Exception/InvalidCommandExecutable.php',
-        'PHPJasper\\Exception\\InvalidFormat' => __DIR__ . '/..' . '/lavela/phpjasper/src/Exception/InvalidFormat.php',
-        'PHPJasper\\Exception\\InvalidInputFile' => __DIR__ . '/..' . '/lavela/phpjasper/src/Exception/InvalidInputFile.php',
-        'PHPJasper\\Exception\\InvalidResourceDirectory' => __DIR__ . '/..' . '/lavela/phpjasper/src/Exception/InvalidResourceDirectory.php',
-        'PHPJasper\\PHPJasper' => __DIR__ . '/..' . '/lavela/phpjasper/src/PHPJasper.php',
+        'PHPJasper\\Exception\\ErrorCommandExecutable' => __DIR__ . '/..' . '/geekcom/phpjasper-laravel/src/Exception/ErrorCommandExecutable.php',
+        'PHPJasper\\Exception\\InvalidCommandExecutable' => __DIR__ . '/..' . '/geekcom/phpjasper-laravel/src/Exception/InvalidCommandExecutable.php',
+        'PHPJasper\\Exception\\InvalidFormat' => __DIR__ . '/..' . '/geekcom/phpjasper-laravel/src/Exception/InvalidFormat.php',
+        'PHPJasper\\Exception\\InvalidInputFile' => __DIR__ . '/..' . '/geekcom/phpjasper-laravel/src/Exception/InvalidInputFile.php',
+        'PHPJasper\\Exception\\InvalidResourceDirectory' => __DIR__ . '/..' . '/geekcom/phpjasper-laravel/src/Exception/InvalidResourceDirectory.php',
+        'PHPJasper\\PHPJasper' => __DIR__ . '/..' . '/geekcom/phpjasper-laravel/src/PHPJasper.php',
+        'PHPJasper\\PHPJasperServiceProvider' => __DIR__ . '/..' . '/geekcom/phpjasper-laravel/src/PHPJasperServiceProvider.php',
         'PHPUnit\\Exception' => __DIR__ . '/..' . '/phpunit/phpunit/src/Exception.php',
         'PHPUnit\\Framework\\Assert' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Assert.php',
         'PHPUnit\\Framework\\AssertionFailedError' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/AssertionFailedError.php',

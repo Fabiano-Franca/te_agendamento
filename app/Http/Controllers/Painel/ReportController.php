@@ -7,6 +7,7 @@ use JasperPHP\JasperPHP;
 use App\Http\Controllers\Controller;
 use App\Customer;
 
+
 class ReportController extends Controller
 {
     /**
@@ -14,25 +15,72 @@ class ReportController extends Controller
      * @return Array
      */
 
-    
-    /*
-    public function getDatabaseConfig()
-    {
-        return [
-            'driver'   => env('DB_CONNECTION'),
-            'host'     => env('DB_HOST'),
-            'port'     => env('DB_PORT'),
-            'username' => env('DB_USERNAME'),
-            'password' => env('DB_PASSWORD'),
-            'database' => env('DB_DATABASE'),
-            'jdbc_dir' => base_path() . env('JDBC_DIR', '/vendor/lavela/phpjasper/src/JasperStarter/jdbc'),
-        ];
-    }*/
-
     public function index()
     {
-        /*
-        $report = new JasperPHP;
+        // coloca na variavel o caminho do novo relatório que será gerado
+        //$input = base_path('/reports/Modelo.jrxml');
+        $inputJRMXL = public_path('/reports/Modelo.jrxml');
+        $input = public_path('reports/modelo.jasper');   
+        $output = public_path('reports/' . time() . '_monitorado');
+        $jdbc_dir = base_path('/vendor/geekcom/phpjasper-laravel/bin/jasperstarter/jdbc');
+        $options = ['pdf', 'rtf'];
+        $conection = [
+                'driver' => env('DB_CONNECTION'),
+                'host' => env('DB_HOST'),
+                'port' => env('DB_PORT'),
+                'database' => env('DB_DATABASE'),
+                'username' => env('DB_USERNAME'),
+                'password' => env('DB_PASSWORD'),
+                'jdbc_driver' => 'org.mariadb.jdbc.Driver',
+                'jdbc_url' => 'jdbc:mariadb://127.0.0.1:3306;databaseName=agendamento_db',
+                'jdbc_dir' => $jdbc_dir
+        ];
+
+        
+        try {
+            $jasper = new JasperPHP;
+
+            //Transforma o .jrxml em .jasper
+            $jasper->compile($inputJRMXL)->execute();
+            
+            //Transforma o .jasper em .pdf ou .rtf
+            $jasper->process(
+                $input,
+                $output,
+                $options,
+                [],
+                $conection
+            )->execute();
+    
+            $file = $output . '.pdf';
+            $path = $file;
+        } catch (Exception $e) {
+            console.log('Erro: ' . $e );
+        }
+        //dd($path);
+            
+        // caso o arquivo não tenha sido gerado retorno um erro 404
+        if (!file_exists($file)) {
+            abort(404);
+        }
+
+        //caso tenha sido gerado pego o conteudo
+        $file = file_get_contents($file);
+        
+        //deleto o arquivo gerado, pois iremos mandar o conteudo para o navegador
+        unlink($path);
+
+        // retornamos o conteudo para o navegador que íra abrir o PDF
+        return response($file, 200)
+            ->header('Content-Type', 'application/pdf')
+            ->header('Content-Disposition', 'inline; filename="monitorado.pdf"');
+       
+
+
+    }
+
+/*
+ $report = new JasperPHP;
         $report->compile(base_path('/vendor/cossou/jasperphp/examples/hello_world.jrxml'))->execute();
 
 
@@ -43,36 +91,36 @@ class ReportController extends Controller
             array('pdf', 'rtf'),
             array('php_version' => phpversion())
         )->execute();
-        */
-        
-        // coloca na variavel o caminho do novo relatório que será gerado
-        $input = base_path('/reports/Modelo.jrxml');
-        $output = base_path('/reports/' . time() . '_monitorado');
 
-        // instancia um novo objeto JasperPHP
-        $report = new JasperPHP;
 
-        // chama o método que irá gerar o relatório
-        // passamos por parametro:
-        // o arquivo do relatório com seu caminho completo
-        // o nome do arquivo que será gerado
-        // o tipo de saída
-        // parametros ( nesse caso não tem nenhum)   
-        
+        [
+            'driver' => 'org.mariadb.jdbc.Driver',
+            'host' => env('DB_HOST', '172.0.0.1'),
+            'port' => env('DB_PORT', '3306'),
+            'database' => env('DB_DATABASE', 'agendamento_db'),
+            'username' => env('DB_USERNAME', 'root'),
+            'password' => env('DB_PASSWORD', ''),
+            'jdbc_driver' => 'org.mariadb.jdbc.Driver',
+            'jdbc_url' => 'jdbc:mariadb://'.env('DB_HOST', '172.0.0.1').':'.env('DB_PORT', '3306').';databaseName='.env('DB_DATABASE', 'agendamento_db'),
+            'jdbc_dir' => '/vendor/geekcom/src/JasperStarter/jdbc/'
+
+        ]
+
+        --------------------------
         $report->process(
             $input,
             $output,
             array('pdf', 'rtf'),
             array(),
             array('php_version' => phpversion()),
-            array(
-                'driver' => 'org.mariadb.jdbc.Driver',
-                'host' => 'localhost',
-                'username' => 'root',
-                'password' => '',
-                'database' => 'agendamento_db',
-                'port' => '3306',
-              )
+            [
+                'driver'   => env('DB_CONNECTION'),
+                'host'     => env('DB_HOST'),
+                'port'     => env('DB_PORT'),
+                'username' => env('DB_USERNAME'),
+                'password' => env('DB_PASSWORD'),
+                'database' => env('DB_DATABASE')
+            ]
         )->execute();
 
         /*
@@ -83,26 +131,22 @@ class ReportController extends Controller
             array(),
             $this->getDatabaseConfig()
         )->output();
-        */
-        $file = $output . '.pdf';
-        $path = $file;
-        //dd($file);
-            
-        // caso o arquivo não tenha sido gerado retorno um erro 404
-        if (!file_exists($file)) {
-            abort(404);
-        }
 
-        //caso tenha sido gerado pego o conteudo
-        $file = file_get_contents($file);
-
-        //deleto o arquivo gerado, pois iremos mandar o conteudo para o navegador
-        unlink($path);
-
-        // retornamos o conteudo para o navegador que íra abrir o PDF
-        return response($file, 200)
-            ->header('Content-Type', 'application/pdf')
-            ->header('Content-Disposition', 'inline; filename="monitorado.pdf"');
-       
+        -------------------
+        public function getDatabaseConfig()
+    {
+        return [
+            'driver'   => env('DB_CONNECTION'),
+            'host'     => env('DB_HOST'),
+            'port'     => env('DB_PORT'),
+            'username' => env('DB_USERNAME'),
+            'password' => env('DB_PASSWORD'),
+            'database' => env('DB_DATABASE'),
+            'jdbc_dir' => base_path() . env('JDBC_DIR', '/vendor/lavela/phpjasper/src/JasperStarter/jdbc'),
+        ];
     }
+    
+    
+    
+    */
 }
