@@ -53,6 +53,37 @@
 			<style backcolor="#D8D8D8"/>
 		</conditionalStyle>
 	</style>
+	<style name="Table 1_TH" mode="Opaque" backcolor="#8FAFCC">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 1_CH" mode="Opaque" backcolor="#CFDBE6">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue()%2==0)]]></conditionExpression>
+			<style backcolor="#E3EBF2"/>
+		</conditionalStyle>
+	</style>
 	<subDataset name="tableDataset" uuid="f13e6d36-5148-4ecc-bbe3-3035def80980">
 		<queryString>
 			<![CDATA[]]>
@@ -106,7 +137,7 @@
 		<property name="com.jaspersoft.studio.field.tree.path" value="monitorado"/>
 	</field>
 	<title>
-		<band height="371" splitType="Stretch">
+		<band height="400" splitType="Stretch">
 			<line>
 				<reportElement x="0" y="132" width="556" height="1" uuid="806ce5df-1219-4876-ae0c-ca7405b1f246">
 					<property name="local_mesure_unitheight" value="pixel"/>
@@ -148,28 +179,49 @@ EMAIL: cemep.sejuc@sejuc.se.gov.br
 				<reportElement x="247" y="0" width="70" height="70" uuid="cdddc732-cde1-4646-8ae5-a5ff0a7e8818"/>
 				<imageExpression><![CDATA["C:/Users/CEMEP07/Pictures/Logo SEJUC.jpg"]]></imageExpression>
 			</image>
-			<textField>
-				<reportElement x="79" y="152" width="100" height="30" uuid="d7918604-780a-4a8f-b6a9-39b01f8a24c2"/>
-				<textFieldExpression><![CDATA[$F{id_monitorado}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="182" y="152" width="363" height="30" uuid="13ce068e-ab4e-42c1-8c90-b08fd4fe6f01"/>
-				<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="82" y="135" width="96" height="15" uuid="cc42003d-2f4c-4319-b53d-ce9231948c92"/>
-				<text><![CDATA[ID]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="183" y="135" width="96" height="15" uuid="a8a010b1-ccf4-431e-9a61-edd27c8be3f1"/>
-				<text><![CDATA[NOME]]></text>
-			</staticText>
-			<line>
-				<reportElement x="0" y="150" width="556" height="1" uuid="7cda2814-dd25-46dc-b646-7850c190fef0">
-					<property name="local_mesure_unitheight" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<componentElement>
+				<reportElement x="30" y="133" width="493" height="267" uuid="40e77925-aed0-43e3-ad54-17dc44e5a04d">
+					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+					<property name="com.jaspersoft.studio.table.style.table_header" value="Table 1_TH"/>
+					<property name="com.jaspersoft.studio.table.style.column_header" value="Table 1_CH"/>
+					<property name="com.jaspersoft.studio.table.style.detail" value="Table 1_TD"/>
 				</reportElement>
-			</line>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="Dataset1" uuid="bd6810c2-c0a0-4871-a557-49c36fd9623f">
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="100" uuid="07b9e8f9-d6c3-48b3-808b-9d9e7e1467c1">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
+						<jr:tableHeader style="Table 1_TH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="100" height="30" uuid="326960d0-ce76-4405-97c4-ccf1973bec13"/>
+								<text><![CDATA[id_monitorado]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell style="Table 1_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="100" height="30" uuid="f7406a4e-a1e2-4dcc-a792-0a816e36b682"/>
+								<textFieldExpression><![CDATA[$F{id_monitorado}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="393" uuid="7971a5a1-375d-404f-bc54-e7910309827c">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
+						<jr:tableHeader style="Table 1_TH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="393" height="30" uuid="3208e40e-d075-43ab-9130-bb7b4190192d"/>
+								<text><![CDATA[nome]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell style="Table 1_TD" height="30">
+							<textField>
+								<reportElement x="0" y="0" width="393" height="30" uuid="d5817f7c-1624-4556-ad7c-1e55687b3d1d"/>
+								<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
 		</band>
 	</title>
 	<columnHeader>
